@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+# ✅ application.properties 제외
+src/main/resources/application.properties
