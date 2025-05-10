@@ -12,13 +12,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private JwtAuthFilter jwtAuthFilter;
 
     @Override
-    //다른 출처의 자원을 공유할 수 있게 해두는 것.
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
-                .allowedOrigins("*")
+                .allowedOriginPatterns(
+                        "http://localhost:5173",
+                        "localhost:8080",
+                        "https://fooroduce.7team.xyz",
+                        "https://api.fooroduce.7team.xyz")
                 .allowedMethods("GET", "POST", "PUT")
-                .allowedHeaders("*")
-                .maxAge(3000); //원하는 시간만큼의 캐싱
+                .allowedHeaders("Content-Type", "Authorization", "X-Requested-With") // 명시적으로 허용할 헤더 작성
+                .allowCredentials(true) // 이 줄 꼭 필요
+                .maxAge(3000);
     }
-
 }

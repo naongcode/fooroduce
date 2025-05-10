@@ -10,7 +10,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient; // WebClient import
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 
 import java.time.LocalDateTime;
@@ -59,7 +61,7 @@ public class UserService {
 
         return userRepository.save(user); //DB에 user객체 저장
     }
-    
+
     //로그인 로직
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByUserId(request.getUser_id())
@@ -74,10 +76,10 @@ public class UserService {
 
         // JWT 생성(아이디정보를 가지고 있음)
         String token = JwtTokenProvider.createToken(user.getUserId());
-        
+
         //Role 문자열로 반환
         String role = user.getRole().name(); //enum을 문자열로 변환
-        
+
         return new LoginResponse(token, role,"로그인 성공");
 
     }
@@ -88,37 +90,54 @@ public class UserService {
     //1. 인가 코드 -> Access Token로 받음
     private static final String KAUTH_TOKEN_URL_HOST = "https://kauth.kakao.com";
     public String getAccessTokenFromKakao(String code) {
-        KakaoTokenResponse kakaoTokenResponseDto = WebClient.create(KAUTH_TOKEN_URL_HOST).post()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/oauth/token")
-                        .queryParam("grant_type", "authorization_code")
-                        .queryParam("client_id", kakaoClientId)
-                        .queryParam("redirect_uri", kakaoRedirectUri)
-                        .queryParam("code", code)
-                        .build(true))
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .retrieve()
-                .bodyToMono(KakaoTokenResponse.class)
-                .block();
+        RestTemplate restTemplate = new RestTemplate();
 
-        if (kakaoTokenResponseDto == null) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", kakaoClientId);
+        params.add("redirect_uri", kakaoRedirectUri);
+        params.add("code", code);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(params, headers);
+
+        ResponseEntity<KakaoTokenResponse> response = restTemplate.postForEntity(
+                "https://kauth.kakao.com/oauth/token",
+                request,
+                KakaoTokenResponse.class
+        );
+
+        KakaoTokenResponse tokenResponse = response.getBody();
+        if (tokenResponse == null) {
             throw new RuntimeException("카카오로부터 토큰을 받아오지 못했습니다.");
         }
 
-        log.info("Access Token: {}", kakaoTokenResponseDto.getAccessToken());
-        return kakaoTokenResponseDto.getAccessToken();
+        log.info("Access Token: {}", tokenResponse.getAccessToken());
+        return tokenResponse.getAccessToken();
     }
 
     //2.Access Token -> 사용자 정보 요청
     public KakaoProfile getKakaoProfile(String accessToken) {
-        WebClient webClient = WebClient.create("https://kapi.kakao.com");
+        RestTemplate restTemplate = new RestTemplate();
 
-        KakaoProfile profile = webClient.get()
-                .uri("/v2/user/me")
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken)
-                .retrieve()
-                .bodyToMono(KakaoProfile.class)
-                .block();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(accessToken);
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<KakaoProfile> response = restTemplate.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.GET,
+                request,
+                KakaoProfile.class
+        );
+
+        KakaoProfile profile = response.getBody();
+        if (profile == null) {
+            throw new RuntimeException("카카오 사용자 정보를 받아오지 못했습니다.");
+        }
 
         log.info("카카오 사용자 정보: id={}, email={}",
                 profile.getId(), profile.getKakao_account().getEmail());

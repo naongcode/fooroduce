@@ -19,7 +19,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 의존성 (데이터베이스 연결 시)
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // Thymeleaf 템플릿 엔진 (옵션)
     implementation 'org.springframework.boot:spring-boot-starter-logging' // 로깅 의존성 (디폴트로 포함됨)
-    implementation 'org.springframework.boot:spring-boot-starter-test' // 테스트 관련 의존성
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // 테스트 관련 의존성
 
     implementation 'org.postgresql:postgresql:42.7.3'
 
@@ -32,9 +33,11 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     implementation 'io.jsonwebtoken:jjwt:0.12.3' //JWT
-
+//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     implementation 'at.favre.lib:bcrypt:0.9.0' //BCrypt
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON 처리를 위해 필요
 }
 
 test {
@@ -47,4 +50,7 @@ jar {
                 'Main-Class': 'com.foodu.Application'  // 여기에 실제 메인 클래스를 입력합니다.
         )
     }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
 }

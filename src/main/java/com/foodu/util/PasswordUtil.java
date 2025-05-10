@@ -1,6 +1,5 @@
 package com.foodu.util;
 
-
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
 public class PasswordUtil {
