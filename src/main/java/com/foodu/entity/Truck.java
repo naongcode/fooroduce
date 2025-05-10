@@ -1,4 +1,4 @@
-package com.foodu.Entity;
+package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

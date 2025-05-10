@@ -1,4 +1,4 @@
-package com.foodu.Membership.util;
+package com.foodu.util;
 
 import java.util.Date;
 import io.jsonwebtoken.Jwts;

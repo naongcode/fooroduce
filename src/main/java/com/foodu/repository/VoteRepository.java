@@ -1,6 +1,6 @@
-package com.foodu.Repository;
+package com.foodu.repository;
 
-import com.foodu.Entity.Vote;
+import com.foodu.entity.Vote;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface VoteRepository extends JpaRepository<Vote, Integer> {

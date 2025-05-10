@@ -1,4 +1,4 @@
-package com.foodu.Membership.util;
+package com.foodu.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

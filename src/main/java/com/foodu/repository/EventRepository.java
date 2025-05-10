@@ -1,6 +1,6 @@
-package com.foodu.Repository;
+package com.foodu.repository;
 
-import com.foodu.Entity.Event;
+import com.foodu.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface EventRepository extends JpaRepository<Event, Integer> {

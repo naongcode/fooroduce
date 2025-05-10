@@ -1,28 +1,25 @@
-package com.foodu.Entity;
+package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "vote_result")
+@Table(name = "truck_menu")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class VoteResult {
+public class TruckMenu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer voteResultId;
-
-    @ManyToOne
-    @JoinColumn(name = "event_id")
-    private Event event;
+    private Integer menuId;
 
     @ManyToOne
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
-    private Integer voteCount;
-    private String savedAt;
+    private String menuName;
+    private String menuPrice;
+    private String menuImage;
 }

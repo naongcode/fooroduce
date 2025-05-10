@@ -1,11 +1,13 @@
-package com.foodu.Membership.util;
+package com.foodu.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+@Component
 public class JwtAuthFilter implements HandlerInterceptor {
 
     @Override

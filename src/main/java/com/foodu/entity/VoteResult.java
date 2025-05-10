@@ -1,19 +1,19 @@
-package com.foodu.Entity;
+package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "vote")
+@Table(name = "vote_result")
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Vote {
+public class VoteResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer voteId;
+    private Integer voteResultId;
 
     @ManyToOne
     @JoinColumn(name = "event_id")
@@ -23,10 +23,6 @@ public class Vote {
     @JoinColumn(name = "truck_id")
     private Truck truck;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private String fingerprint;
-    private String votedAt;
+    private Integer voteCount;
+    private String savedAt;
 }
