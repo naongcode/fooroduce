@@ -1,20 +1,45 @@
+#spring:
+#  datasource:
+#    url: ${DB_URL}
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
+#    driver-class-name: ${DB_DRIVER_CLASS}
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: none  # 원하면 create, none 가능
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#
+#  logging:
+#    level:
+#      com.foodu.myapp: INFO
+#      com.foodu.myapp.IDE.submission: DEBUG
+
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-    driver-class-name: ${DB_DRIVER_CLASS}
+    url: jdbc:mysql://localhost:3307/fooroduce?serverTimezone=Asia/Seoul
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none  # 원하면 create, none 가능
+      ddl-auto: none   # 또는 create, none (개발 중에는 update 추천)
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
 
-  logging:
-    level:
-      com.foodu.myapp: INFO
-      com.foodu.myapp.IDE.submission: DEBUG
+logging:
+  level:
+    com.foodu: INFO
+    org.hibernate.SQL: DEBUG
+
+kakao:
+  client-id: dummy
+  redirect-uri: http://localhost
