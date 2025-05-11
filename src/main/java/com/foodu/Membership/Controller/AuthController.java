@@ -1,6 +1,5 @@
 package com.foodu.Membership.Controller;
 
-
 import com.foodu.Membership.Dto.*;
 import com.foodu.Membership.Service.UserService;
 import com.foodu.entity.User;
@@ -14,7 +13,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*")
+//@CrossOrigin(origins = "*")
 @RequestMapping("/api/users")
 public class AuthController {
 

@@ -61,7 +61,7 @@ public class UserService {
 
         return userRepository.save(user); //DB에 user객체 저장
     }
-
+    
     //로그인 로직
     public LoginResponse login(LoginRequest request) {
         User user = userRepository.findByUserId(request.getUser_id())
@@ -76,10 +76,10 @@ public class UserService {
 
         // JWT 생성(아이디정보를 가지고 있음)
         String token = JwtTokenProvider.createToken(user.getUserId());
-
+        
         //Role 문자열로 반환
         String role = user.getRole().name(); //enum을 문자열로 변환
-
+        
         return new LoginResponse(token, role,"로그인 성공");
 
     }
@@ -181,15 +181,16 @@ public class UserService {
         return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공");
     }
 
-    //아이디 중복 확인
+    // 아이디 중복 확인 - 해당 아이디가 존재하면 false (사용 불가), 존재하지 않으면 true (사용 가능)
     public boolean isUsableId(String userId) {
-        try{
-            return userRepository.existsByUserId(userId); //해당 유저아이디가 존재하는가?
+        try {
+            return !userRepository.existsByUserId(userId); // 존재하면 false, 존재하지 않으면 true
         } catch (Exception e) {
             log.error("Error checking duplicate user ID: ", e);
             throw new RuntimeException("Database error occurred");
         }
     }
+
 
 }
 

@@ -16,7 +16,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns(
                         "http://localhost:5173",
-                        "localhost:8080",
+                        "http://localhost:8080",
                         "https://fooroduce.7team.xyz",
                         "https://api.fooroduce.7team.xyz")
                 .allowedMethods("GET", "POST", "PUT")
