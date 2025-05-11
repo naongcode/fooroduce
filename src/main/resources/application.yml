@@ -16,5 +16,19 @@ spring:
 
   logging:
     level:
-      com.foodu.myapp: INFO
-      com.foodu.myapp.IDE.submission: DEBUG
+      com.foodu: INFO
+      ROOT: DEBUG
+
+  web:
+    cors:
+      allowed-origin-patterns:
+        - "https://*.fooroduce.7team.xyz"
+        - "http://localhost:5173"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+      allowed-headers:
+        - "Content-Type"
+        - "Authorization"
+      allow-credentials: true
