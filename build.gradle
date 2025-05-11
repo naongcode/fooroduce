@@ -1,0 +1,56 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+}
+
+group = 'com.foodu'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '21'  // 자바 21 설정
+targetCompatibility = '21'  // 자바 21 설정
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web' // 스프링 웹 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 의존성 (데이터베이스 연결 시)
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // Thymeleaf 템플릿 엔진 (옵션)
+    implementation 'org.springframework.boot:spring-boot-starter-logging' // 로깅 의존성 (디폴트로 포함됨)
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test' // 테스트 관련 의존성
+
+    implementation 'org.postgresql:postgresql:42.7.3'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    testCompileOnly 'org.projectlombok:lombok:1.18.30'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    implementation 'io.jsonwebtoken:jjwt:0.12.3' //JWT
+//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'at.favre.lib:bcrypt:0.9.0' //BCrypt
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5' // JSON 처리를 위해 필요
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.foodu.Application'  // 여기에 실제 메인 클래스를 입력합니다.
+        )
+    }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs << "-Xlint:deprecation"
+}
