@@ -32,3 +32,7 @@ spring:
         - "Content-Type"
         - "Authorization"
       allow-credentials: true
+
+  kakao:
+    client-id: 987871
+    redirect-uri: https://fooroduce.7team.xyz/oauth/callback/kakao
