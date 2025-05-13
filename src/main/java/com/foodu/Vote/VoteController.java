@@ -9,7 +9,6 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/votes")
 public class VoteController {
 
     private final VoteService voteService;
@@ -18,7 +17,7 @@ public class VoteController {
         this.voteService = voteService;
     }
 
-    @PostMapping
+    @PostMapping("/api/votes") //경로 수정
     public ResponseEntity<?> vote(@RequestBody VoteRequestDto dto) {
         try {
             voteService.vote(dto);
@@ -30,7 +29,7 @@ public class VoteController {
         }
     }
 
-    @GetMapping("/results/{eventId}")
+    @GetMapping("/api/event/{eventId}/votes") //엔드포인트 잘못 설정됨 수정함. results/{eventId} -> {eventId}/votes
     public ResponseEntity<?> getVoteResults(@PathVariable Integer eventId) {
         try {
             List<VoteResult> results = voteService.getVoteResults(eventId);
