@@ -1,9 +1,9 @@
 spring:
   datasource:
-    url: jdbc:postgresql://43.203.3.27:5432/mydb?currentSchema=fooroduce
-    username: myuser
-    password: 1234
-    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
 
   jpa:
     hibernate:
