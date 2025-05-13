@@ -160,7 +160,7 @@ public class UserService {
 
         // 이메일이 null이면 기본 이메일 설정
         if (email == null) {
-            email = "no-email@kakao.com"; // 기본 이메일 설정
+            email = "no1-email@kakao.com"; // 기본 이메일 설정
         }
 
         if (optionalUser.isEmpty()) {
