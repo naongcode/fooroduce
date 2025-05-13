@@ -22,7 +22,7 @@ public class Truck {
     private String name;
     private String phoneNumber;
 
-    @Lob
+    //@Lob
     private String description;
 
     private String createdAt;

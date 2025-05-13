@@ -3,6 +3,8 @@ package com.foodu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "vote_result")
 @Getter @Setter
@@ -24,5 +26,5 @@ public class VoteResult {
     private Truck truck;
 
     private Integer voteCount;
-    private String savedAt;
+    private LocalDateTime savedAt;
 }

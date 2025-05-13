@@ -3,6 +3,8 @@ package com.foodu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "vote")
 @Getter @Setter
@@ -28,5 +30,5 @@ public class Vote {
     private User user;
 
     private String fingerprint;
-    private String votedAt;
+    private LocalDateTime votedAt;
 }
