@@ -3,7 +3,7 @@ spring:
     url: ${DB_URL}
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-    driver-class-name: ${DB_DRIVER_CLASS}
+    driver-class-name: ${DB_DRIVER}
 
   jpa:
     hibernate:
@@ -33,6 +33,7 @@ spring:
         - "Authorization"
       allow-credentials: true
 
-  kakao:
-    client-id: 987871
-    redirect-uri: https://fooroduce.7team.xyz/oauth/callback/kakao
+kakao:
+  client-id: 987871
+  redirect-uri: https://fooroduce.7team.xyz/oauth/callback/kakao
+  api-key: 053fe749d4f9c2cfafa4bf0958899ae1
