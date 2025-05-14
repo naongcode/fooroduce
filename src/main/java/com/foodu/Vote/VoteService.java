@@ -33,7 +33,7 @@ public class VoteService {
         this.eventRepository = eventRepository;
     }
 
-    public void vote(VoteRequest dto, String token) {
+    public void vote(VoteRequest dto, String token, String fingerprint) {
         System.out.println(">>> EventId: " + dto.getEventId());
         System.out.println(">>> TruckId: " + dto.getTruckId());
 

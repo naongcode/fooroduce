@@ -4,12 +4,11 @@ import com.foodu.Vote.Dto.VoteRequest;
 import com.foodu.util.JwtTokenProvider;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.foodu.entity.VoteResult;
-
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @RestController
 public class VoteController {
 
@@ -21,9 +20,10 @@ public class VoteController {
 
     @PostMapping("/api/votes")
     public ResponseEntity<?> vote(@RequestBody VoteRequest dto,
-                                  @RequestHeader(value = "Authorization", required = false) String token) {
+                                  @RequestHeader(value = "Authorization", required = false) String token,
+                                  @RequestHeader(value = "fingerprint", required = false) String fingerprint) {
         try {
-            voteService.vote(dto, token);  // 토큰을 서비스에 전달
+            voteService.vote(dto, token, fingerprint);  // 토큰을 서비스에 전달, 핑거프린트도 전달
             return ResponseEntity.ok("투표 성공");
         } catch (IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -33,8 +33,8 @@ public class VoteController {
         }
     }
 
-
-    @GetMapping("/api/event/{eventId}/votes")
+    // 엔드포인트 event -> events로 변경
+    @GetMapping("/api/events/{eventId}/votes")
     public ResponseEntity<?> getVoteResults(@PathVariable Integer eventId,
                                             @RequestHeader(value = "Authorization", required = false) String token) {
         try {
@@ -50,11 +50,9 @@ public class VoteController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("투표 중 서버 오류 발생", e); // ← 로그 파일로 기록
             return ResponseEntity.internalServerError().body("서버 오류: " + e.getMessage());
         }
     }
-
-
 
 }
