@@ -61,8 +61,8 @@ public class VoteService {
 
                 // 하루 최대 투표 횟수 확인
                 int voteCount = voteRepository.countByUserAndEventAndVotedAtBetween(user, event, startOfDay, endOfDay);
-                if (voteCount >= 3) {
-                    throw new IllegalStateException("회원은 하루 최대 3번까지만 투표할 수 있습니다.");
+                if (voteCount >= 100) {
+                    throw new IllegalStateException("회원은 하루 최대 100번까지만 투표할 수 있습니다.");
                 }
             } else {
                 throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
@@ -71,8 +71,8 @@ public class VoteService {
             // 비회원 로직
             int voteCount = voteRepository.countByFingerprintAndEventAndVotedAtBetween(
                     dto.getFingerprint(), event, startOfDay, endOfDay);
-            if (voteCount >= 1) {
-                throw new IllegalStateException("비회원은 하루 최대 1번까지만 투표할 수 있습니다.");
+            if (voteCount >= 100) {
+                throw new IllegalStateException("비회원은 하루 최대 100번까지만 투표할 수 있습니다.");
             }
         } else {
             throw new IllegalArgumentException("회원 토큰 또는 fingerprint가 필요합니다.");
