@@ -64,6 +64,12 @@ public class VoteService {
                 if (voteCount >= 100) {
                     throw new IllegalStateException("회원은 하루 최대 100번까지만 투표할 수 있습니다.");
                 }
+                // 중복 투표 확인 (회원)
+                boolean alreadyVoted = voteRepository.existsByUserAndEventAndTruck(user, event, truck);
+                if (alreadyVoted) {
+                    throw new IllegalStateException("이미 해당 트럭에 투표하셨습니다.");
+                }
+
             } else {
                 throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
             }
@@ -74,6 +80,13 @@ public class VoteService {
             if (voteCount >= 100) {
                 throw new IllegalStateException("비회원은 하루 최대 100번까지만 투표할 수 있습니다.");
             }
+
+            // 중복 투표 확인 (비회원)
+            boolean alreadyVoted = voteRepository.existsByFingerprintAndEventAndTruck(dto.getFingerprint(), event, truck);
+            if (alreadyVoted) {
+                throw new IllegalStateException("이미 해당 트럭에 투표하셨습니다.");
+            }
+
         } else {
             throw new IllegalArgumentException("회원 토큰 또는 fingerprint가 필요합니다.");
         }
