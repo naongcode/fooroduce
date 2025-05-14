@@ -23,12 +23,15 @@ public class VoteController {
                                   @RequestHeader(value = "Authorization", required = false) String token,
                                   @RequestHeader(value = "fingerprint", required = false) String fingerprint) {
         try {
+            // 여기서 dto에 헤더로 받은 fingerprint 세팅
+            dto.setFingerprint(fingerprint);
+
             voteService.vote(dto, token, fingerprint);  // 토큰을 서비스에 전달, 핑거프린트도 전달
             return ResponseEntity.ok("투표 성공");
         } catch (IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("투표 중 서버 오류 발생", e); // ← 로그 파일로 기록
             return ResponseEntity.internalServerError().body("서버 오류: " + e.getMessage());
         }
     }
