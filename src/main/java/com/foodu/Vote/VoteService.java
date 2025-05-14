@@ -3,6 +3,7 @@ package com.foodu.Vote;
 import com.foodu.Vote.Dto.VoteRequest;
 import com.foodu.entity.*;
 import com.foodu.repository.*;
+import com.foodu.util.ExtractInfoFromToken;
 import com.foodu.util.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
@@ -54,7 +55,7 @@ public class VoteService {
         if (token != null && token.startsWith("Bearer ")) {
             String jwt = token.substring(7); // "Bearer " 부분 제거
             if (JwtTokenProvider.isTokenValid(jwt)) {
-                String userId = JwtTokenProvider.getUserIdFromToken(jwt);
+                String userId = ExtractInfoFromToken.getUserIdFromToken(jwt);
                 user = userRepository.findById(userId)
                         .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
