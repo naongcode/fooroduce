@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # fooroduce
 ## "태그 : 제목"의 형태
 - feat : 새로운 기능 추가
@@ -12,3 +13,6 @@
  - main : 배포용
  - dev : 배포 전 취합
  - feature/기능명 : 기능별 브랜치 분리
+=======
+# fooroduce
+>>>>>>> b669e3090c2cfe4d8d8d6f8e6fedd5ae0fd1c072

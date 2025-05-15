@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER}
+
+  jpa:
+    hibernate:
+      ddl-auto: none  # 원하면 create, none 가능
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  logging:
+    level:
+      com.foodu: INFO
+      ROOT: DEBUG
+
+  web:
+    cors:
+      allowed-origin-patterns:
+        - "https://*.fooroduce.7team.xyz"
+        - "http://localhost:5173"
+      allowed-methods:
+        - GET
+        - POST
+        - PUT
+      allowed-headers:
+        - "Content-Type"
+        - "Authorization"
+      allow-credentials: true
+
+kakao:
+  client-id: 987871
+  redirect-uri: https://fooroduce.7team.xyz/oauth/callback/kakao
+  api-key: 053fe749d4f9c2cfafa4bf0958899ae1
