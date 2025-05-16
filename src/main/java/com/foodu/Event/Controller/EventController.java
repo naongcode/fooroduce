@@ -1,11 +1,13 @@
 package com.foodu.Event.Controller;
 
 import com.foodu.Event.Dto.ClosedEventResponse;
+import com.foodu.Event.Dto.EventResponse;
 import com.foodu.Event.Dto.OngoingEventResponse;
 import com.foodu.Event.Service.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,5 +34,10 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    @GetMapping("/{eventId}")
+    public ResponseEntity<EventResponse> getEventDetail(@PathVariable Integer eventId) {
+        EventResponse response = eventService.getEventDetail(eventId);
+        return ResponseEntity.ok(response);
+    }
 
 }

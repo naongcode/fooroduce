@@ -36,10 +36,10 @@ public class Event {
 
 
     @Column(name = "recruit_start")
-    private String recruitStart;
+    private LocalDateTime recruitStart;
 
     @Column(name = "recruit_end")
-    private String recruitEnd;
+    private LocalDateTime recruitEnd;
 
     @Column(name = "vote_start")
     private LocalDateTime voteStart;
