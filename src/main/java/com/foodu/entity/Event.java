@@ -24,8 +24,8 @@ public class Event {
     @Column(name = "event_image")
     private String eventImage;
 
-    private String eventStart;
-    private String eventEnd;
+    private LocalDateTime eventStart;
+    private LocalDateTime eventEnd;
 
     //@Lob
     @Column(name = "description", columnDefinition = "TEXT") // columnDefinition 사용
