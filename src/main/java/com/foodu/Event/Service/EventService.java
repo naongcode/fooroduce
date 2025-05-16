@@ -1,5 +1,6 @@
 package com.foodu.Event.Service;
 
+import com.foodu.Event.Dto.AllEventResponse;
 import com.foodu.Event.Dto.ClosedEventResponse;
 import com.foodu.Event.Dto.EventResponse;
 import com.foodu.Event.Dto.OngoingEventResponse;
@@ -31,6 +32,28 @@ public class EventService {
 //        this.eventRepository = eventRepository;
 //    }
 
+    //전체 행사
+    public List<AllEventResponse> getAllEvents() {
+        List<Event> events = eventRepository.findAll();
+
+        return events.stream()
+                .map(event -> new AllEventResponse(
+                        event.getEventId(),
+                        event.getEventName(),
+                        event.getEventHost(),
+                        event.getEventImage(),
+                        event.getEventStart(),
+                        event.getEventEnd(),
+                        event.getRecruitStart(),
+                        event.getRecruitEnd(),
+                        event.getVoteStart(),
+                        event.getVoteEnd()
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+
     // 진행중 이벤트
     public List<OngoingEventResponse> getOngoingEvents() {
         return eventRepository.findOngoingEvents(LocalDateTime.now())  // 여기 수정
@@ -38,6 +61,13 @@ public class EventService {
                 .map(event -> new OngoingEventResponse(
                         event.getEventId(),
                         event.getEventName(),
+                        event.getEventHost(),
+                        event.getEventImage(),
+                        event.getEventStart(),
+                        event.getEventEnd(),
+                        event.getRecruitStart(),
+                        event.getRecruitEnd(),
+                        event.getVoteStart(),
                         event.getVoteEnd()
                 ))
                 .sorted(Comparator.comparing(OngoingEventResponse::getVoteEnd)) // 오름차순 정렬
@@ -51,12 +81,18 @@ public class EventService {
                 .map(event -> new ClosedEventResponse(
                         event.getEventId(),
                         event.getEventName(),
-                        event.getEventEnd()
+                        event.getEventHost(),
+                        event.getEventImage(),
+                        event.getEventStart(),
+                        event.getEventEnd(),
+                        event.getRecruitStart(),
+                        event.getRecruitEnd(),
+                        event.getVoteStart(),
+                        event.getVoteEnd()
                 ))
                 .sorted(Comparator.comparing(ClosedEventResponse::getEventEnd).reversed()) // 내림차순 정렬
                 .collect(Collectors.toList());
     }
-
 
     public EventResponse getEventDetail(Integer eventId) {
         // 1. 행사 정보 조회

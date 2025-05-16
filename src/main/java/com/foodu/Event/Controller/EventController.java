@@ -1,5 +1,6 @@
 package com.foodu.Event.Controller;
 
+import com.foodu.Event.Dto.AllEventResponse;
 import com.foodu.Event.Dto.ClosedEventResponse;
 import com.foodu.Event.Dto.EventResponse;
 import com.foodu.Event.Dto.OngoingEventResponse;
@@ -19,6 +20,12 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+
+    //전체 행사 목록 조회
+    @GetMapping
+    public List<AllEventResponse> getAllEvents() {
+        return eventService.getAllEvents();
+    }
 
     // 현재 투표 가능한 행사 목록 조회
     @GetMapping("/ongoing")

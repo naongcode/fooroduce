@@ -6,10 +6,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-
 @Getter
 @AllArgsConstructor
-public class OngoingEventResponse {
+public class AllEventResponse {
     @Column(name = "event_id")
     private Integer eventId;
     @Column(name = "event_name")
@@ -35,5 +34,3 @@ public class OngoingEventResponse {
     @Column(name = "vote_end")
     private LocalDateTime voteEnd;
 }
-
-
