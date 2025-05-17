@@ -1,17 +1,20 @@
 package com.foodu.Vote;
 
 import com.foodu.Vote.Dto.VoteRequest;
+import com.foodu.Vote.Dto.VoteResponse;
+import com.foodu.Vote.Dto.VoteStatusResponse;
 import com.foodu.entity.*;
 import com.foodu.repository.*;
 import com.foodu.util.ExtractInfoFromToken;
 import com.foodu.util.JwtTokenProvider;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.stream.Collectors;
 
 @Service
 public class VoteService {
@@ -116,12 +119,55 @@ public class VoteService {
         voteResultRepository.save(result);
     }
 
-    // 추가된 메서드: 투표 결과 가져오기
-    public List<VoteResult> getVoteResults(Integer eventId) {
+    // 투표 결과 가져오기
+    public List<VoteResponse> getVoteResponses(Integer eventId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("이벤트를 찾을 수 없습니다."));
 
-        // 특정 이벤트에 대한 투표 결과를 내림차순으로 가져옴
-        return voteResultRepository.findAllByEventOrderByVoteCountDesc(event);
+        List<VoteResult> voteResults = voteResultRepository.findAllByEventOrderByVoteCountDesc(event);
+
+        return voteResults.stream()
+                .map(result -> {
+                    Truck truck = result.getTruck();
+                    String truckName = truck.getName();
+                    Integer truckId = truck.getTruckId();
+
+                    // 대표 이미지 가져오기 (예: 첫 번째 메뉴의 이미지)
+                    String menuImage = null;
+                    List<TruckMenu> menus = truck.getTruckMenus();
+                    if (menus != null && !menus.isEmpty()) {
+                        menuImage = menus.get(0).getMenuImage(); // 첫 번째 메뉴 이미지
+                    }
+
+                    return new VoteResponse(truckId, truckName, menuImage, result.getVoteCount());
+                })
+                .collect(Collectors.toList());
     }
+
+    public List<VoteStatusResponse> checkVoteStatus(Integer eventId, String userId, String fingerprint) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("이벤트를 찾을 수 없습니다."));
+
+        List<Truck> trucks = truckRepository.findTrucksByEventId(eventId);
+
+        List<VoteStatusResponse> responses = new ArrayList<>();
+
+        for (Truck truck : trucks) {
+            boolean alreadyVoted = false;
+
+            if (userId != null) {
+                User user = userRepository.findById(userId)
+                        .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                alreadyVoted = voteRepository.existsByUserAndEventAndTruck(user, event, truck);
+            } else if (fingerprint != null) {
+                alreadyVoted = voteRepository.existsByFingerprintAndEventAndTruck(fingerprint, event, truck);
+            }
+            // userId, fingerprint 둘 다 없으면 그냥 alreadyVoted = false
+
+            responses.add(new VoteStatusResponse(truck.getTruckId(), alreadyVoted));
+        }
+
+        return responses;
+    }
+
 }

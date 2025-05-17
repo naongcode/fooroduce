@@ -3,6 +3,8 @@ package com.foodu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "truck")
 @Getter @Setter
@@ -26,4 +28,7 @@ public class Truck {
     private String description;
 
     private String createdAt;
+
+    @OneToMany(mappedBy = "truck")
+    private List<TruckMenu> truckMenus;
 }
