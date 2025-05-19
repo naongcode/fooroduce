@@ -19,10 +19,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa' // JPA 의존성 (데이터베이스 연결 시)
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // Thymeleaf 템플릿 엔진 (옵션)
     implementation 'org.springframework.boot:spring-boot-starter-logging' // 로깅 의존성 (디폴트로 포함됨)
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test' // 테스트 관련 의존성
 
     implementation 'org.postgresql:postgresql:42.7.3'
+    implementation 'org.locationtech.jts:jts-core:1.19.0'   // JTS geometry API
+    implementation 'org.hibernate.orm:hibernate-spatial:6.4.4.Final'
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

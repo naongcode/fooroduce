@@ -2,9 +2,11 @@ package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
-import java.util.List;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+import org.locationtech.jts.geom.Point;
+
 
 @Entity
 @Table(name = "event")
@@ -59,4 +61,8 @@ public class Event {
     private Integer createdBy;
     @Column(name = "created_at")
     private String createdAt;
+
+    @JdbcTypeCode(SqlTypes.GEOMETRY)
+    @Column(name = "location_point", columnDefinition = "geometry(Point,4326)")
+    private Point locationPoint;
 }
