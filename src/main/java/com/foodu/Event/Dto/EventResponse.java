@@ -33,7 +33,7 @@ public class EventResponse {
     private Double latitude;
     private Double longitude;
 
-    private Integer createdBy;
+    private String createdBy;
     private String createdAt;
 
     // === 트럭 + 메뉴 정보 통합 ===

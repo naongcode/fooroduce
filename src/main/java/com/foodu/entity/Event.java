@@ -58,7 +58,7 @@ public class Event {
     private Double longitude;
 
     @Column(name = "created_by")
-    private Integer createdBy;
+    private String createdBy;
     @Column(name = "created_at")
     private String createdAt;
 
