@@ -1,16 +1,16 @@
 package com.foodu.Event.Controller;
 
-import com.foodu.Event.Dto.AllEventResponse;
-import com.foodu.Event.Dto.ClosedEventResponse;
-import com.foodu.Event.Dto.EventResponse;
-import com.foodu.Event.Dto.OngoingEventResponse;
+import com.foodu.Event.Dto.*;
+import com.foodu.Event.Service.EventManagementService;
 import com.foodu.Event.Service.EventService;
+import com.foodu.util.JwtTokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final EventManagementService eventManagementService;
 
     //전체 행사 목록 조회
     @GetMapping
@@ -46,5 +47,23 @@ public class EventController {
         EventResponse response = eventService.getEventDetail(eventId);
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createEvent(
+            @RequestBody EventCreateRequest request,
+            HttpServletRequest httpRequest) {
+
+        String userId = (String) httpRequest.getAttribute("userId");
+        String role = (String) httpRequest.getAttribute("role");
+
+        if (!"EVENT_MANAGER".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("행사 담당자만 등록 가능합니다.");
+        }
+
+        EventCreateResponse response = eventManagementService.createEvent(request, userId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
 
 }

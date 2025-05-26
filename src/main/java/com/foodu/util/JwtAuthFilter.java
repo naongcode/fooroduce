@@ -47,6 +47,7 @@ public class JwtAuthFilter implements HandlerInterceptor {
                     .getBody();
 
             request.setAttribute("userId", claims.get("id"));
+            request.setAttribute("role", claims.get("role"));
             return true;
         } catch (JwtException e) {
             System.out.println("Error parsing token: " + e.getMessage());

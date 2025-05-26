@@ -18,6 +18,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "event_id")
     private Integer eventId;
 
     @Column(name = "event_name")
@@ -58,9 +59,9 @@ public class Event {
     private Double longitude;
 
     @Column(name = "created_by")
-    private Integer createdBy;
+    private String createdBy;
     @Column(name = "created_at")
-    private String createdAt;
+    private LocalDateTime createdAt;
 
     @JdbcTypeCode(SqlTypes.GEOMETRY)
     @Column(name = "location_point", columnDefinition = "geometry(Point,4326)")
