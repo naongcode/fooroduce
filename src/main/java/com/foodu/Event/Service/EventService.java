@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
+
     private final EventRepository eventRepository;
     private final TruckApplicationRepository truckApplicationRepository;
     private final TruckMenuRepository truckMenuRepository;

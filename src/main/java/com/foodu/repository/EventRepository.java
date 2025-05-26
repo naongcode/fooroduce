@@ -21,4 +21,10 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findClosedEvents(@Param("today") LocalDateTime today);
 
     List<Event> findByCreatedBy(String createdBy);
+
+    //이미지 이름이 같은거 세는 로직
+    @Query("SELECT COUNT(e) FROM Event e WHERE e.eventImage LIKE CONCAT(:prefix, '%')")
+    int countByEventImagePrefix(@Param("prefix") String prefix);
+
+
 }

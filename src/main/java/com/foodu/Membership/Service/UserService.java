@@ -75,12 +75,12 @@ public class UserService {
         }
 
         // JWT 생성(아이디정보를 가지고 있음)
-        String token = JwtTokenProvider.createToken(user.getUserId());
+        String token = JwtTokenProvider.createToken(user.getUserId(), user.getRole().name());
         
         //Role 문자열로 반환
         String role = user.getRole().name(); //enum을 문자열로 변환
         
-        return new LoginResponse(token, role,"로그인 성공", user.getUserId());
+        return new LoginResponse(token, role,"로그인 성공");
 
     }
 
@@ -177,8 +177,8 @@ public class UserService {
             user = optionalUser.get();
         }
 
-        String token = JwtTokenProvider.createToken(user.getUserId());
-        return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공", user.getUserId());
+        String token = JwtTokenProvider.createToken(user.getUserId(), user.getRole().name());
+        return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공");
     }
 
     // 아이디 중복 확인 - 해당 아이디가 존재하면 false (사용 불가), 존재하지 않으면 true (사용 가능)
