@@ -118,6 +118,7 @@ public class EventService {
                             .truckId(truck.getTruckId())
                             .truckName(truck.getName())
                             .description(truck.getDescription()) // 🟡 트럭 설명 포함
+                            .phoneNumber(truck.getPhoneNumber())
                             .menus(menus.stream().map(menu ->
                                     EventResponse.TruckWithMenu.Menu.builder()
                                             .menuName(menu.getMenuName())
