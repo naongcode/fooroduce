@@ -45,6 +45,7 @@ public class EventResponse {
         private Integer truckId;
         private String truckName;
         private String description;
+        private String phoneNumber;
 
         private List<Menu> menus;
 
