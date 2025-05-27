@@ -24,7 +24,7 @@ public class EventImageController {
             return ResponseEntity.badRequest().body(Map.of("error", "파일명이 필요합니다."));
         }
 
-        // 예: "banner.png" → "image/banner.png"
+
         String objectKey = "image/" + originalFilename;
 
         String uploadUrl = s3Service.generatePresignedUrl(objectKey);
