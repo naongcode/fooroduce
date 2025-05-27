@@ -25,4 +25,6 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     int countByEventImagePrefix(@Param("prefix") String prefix);
 
 
+
+    List<Event> findByCreatedBy(String createdBy);
 }
