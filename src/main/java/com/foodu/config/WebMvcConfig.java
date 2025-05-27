@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "http://localhost:8080",
                         "https://fooroduce.7team.xyz",
                         "https://api.fooroduce.7team.xyz")
-                .allowedMethods("GET", "POST", "PUT")
+                .allowedMethods("GET", "POST", "PUT", "OPTIONS")
                 .allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "fingerprint") // 명시적으로 허용할 헤더 작성
                 .allowCredentials(true) // 이 줄 꼭 필요
                 .maxAge(3000);
