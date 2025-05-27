@@ -80,7 +80,7 @@ public class UserService {
         //Role 문자열로 반환
         String role = user.getRole().name(); //enum을 문자열로 변환
         
-        return new LoginResponse(token, role,"로그인 성공");
+        return new LoginResponse(token, role,"로그인 성공", user.getUserId());
 
     }
 
@@ -178,7 +178,7 @@ public class UserService {
         }
 
         String token = JwtTokenProvider.createToken(user.getUserId(), user.getRole().name());
-        return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공");
+        return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공", user.getUserId());
     }
 
     // 아이디 중복 확인 - 해당 아이디가 존재하면 false (사용 불가), 존재하지 않으면 true (사용 가능)
