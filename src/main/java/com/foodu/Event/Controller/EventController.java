@@ -64,6 +64,26 @@ public class EventController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @PatchMapping("/{eventId}/update")
+    public ResponseEntity<?> updateEvent(
+            @RequestBody EventUpdateRequest request,
+            HttpServletRequest httpRequest) {
 
+        String userId = (String) httpRequest.getAttribute("userId");
+        String role = (String) httpRequest.getAttribute("role");
+
+        if (!"EVENT_MANAGER".equals(role)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당하는 행사의 담당자만 수정이 가능합니다.");
+        }
+
+        try {
+            EventUpdateResponse response = eventManagementService.updateEvent(request, userId);
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (SecurityException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
 
 }
