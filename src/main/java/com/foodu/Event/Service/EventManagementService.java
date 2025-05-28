@@ -10,6 +10,7 @@ import com.foodu.entity.Event;
 import com.foodu.entity.User;
 import com.foodu.repository.EventRepository;
 import com.foodu.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -125,4 +126,22 @@ public class EventManagementService {
                 .truckCount(event.getTruckCount())
                 .build();
     }
+
+    //행사 취소 로직
+    public void cancelEvent(Integer eventId, String userId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 ID의 행사가 존재하지 않습니다."));
+
+        if (!event.getCreatedBy().equals(userId)) {
+            throw new SecurityException("자신이 등록한 행사만 취소할 수 있습니다.");
+        }
+
+        if (event.isCanceled()) {
+            throw new IllegalArgumentException("이미 취소된 행사입니다.");
+        }
+
+        event.setCanceled(true);
+        eventRepository.save(event);
+    }
+
 }
