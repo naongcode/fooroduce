@@ -46,7 +46,7 @@ public class EventResponse {
         private String truckName;
         private String description;
         private String phoneNumber;
-
+        private String status; // 추가: 승인 상태
         private List<Menu> menus;
 
         @Data
