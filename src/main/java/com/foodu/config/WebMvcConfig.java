@@ -20,7 +20,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "http://localhost:8080",
                         "https://fooroduce.7team.xyz",
                         "https://api.fooroduce.7team.xyz")
-                .allowedMethods("GET", "POST", "PUT", "OPTIONS")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .allowedHeaders("Content-Type", "Authorization", "X-Requested-With", "fingerprint") // 명시적으로 허용할 헤더 작성
                 .allowCredentials(true) // 이 줄 꼭 필요
                 .maxAge(3000);
@@ -29,6 +29,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtAuthFilter)
-                .addPathPatterns("/api/events/list", "/api/events/create");  // 필요한 경로만 지정
+                .addPathPatterns("/api/events/list", "/api/events/create", "/api/events/{eventId}/update", "/api/events/{eventId}/cancel");  // 필요한 경로만 지정
     }
 }

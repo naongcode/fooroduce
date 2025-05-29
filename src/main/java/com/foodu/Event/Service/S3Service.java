@@ -44,6 +44,7 @@ public class S3Service {
             PutObjectRequest objectRequest = PutObjectRequest.builder()
                     .bucket(bucket)
                     .key(objectKey)
+                    .cacheControl("public, max-age=31536000, immutable")
                     .build();
 
             PutObjectPresignRequest presignRequest = PutObjectPresignRequest.builder()
