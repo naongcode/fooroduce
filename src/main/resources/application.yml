@@ -37,3 +37,13 @@ kakao:
   client-id: 987871
   redirect-uri: https://fooroduce.7team.xyz/oauth/callback/kakao
   api-key: 053fe749d4f9c2cfafa4bf0958899ae1
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${CLOUD_AWS_CREDENTIALS_ACCESS_KEY}
+      secret-key: ${CLOUD_AWS_CREDENTIALS_SECRET_KEY}
+    region:
+      static: ${CLOUD_AWS_REGION_STATIC}
+    s3:
+      bucket: ${CLOUD_AWS_S3_BUCKET}
