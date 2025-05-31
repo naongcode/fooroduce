@@ -1,23 +1,44 @@
+#spring:
+#  datasource:
+#    url: ${DB_URL}
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
+#    driver-class-name: ${DB_DRIVER}
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: none  # 원하면 create, none 가능
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#
+#  logging:
+#    level:
+#      com.foodu: INFO
+#      ROOT: DEBUG
 spring:
   datasource:
-    url: ${DB_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
-    driver-class-name: ${DB_DRIVER}
+    url: jdbc:mysql://localhost:3307/fooroduce
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: none  # 원하면 create, none 가능
+      ddl-auto: update  # 개발 중에는 update 또는 create
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
 
-  logging:
-    level:
-      com.foodu: INFO
-      ROOT: DEBUG
+logging:
+  level:
+    com.foodu: INFO
+    ROOT: DEBUG
+
 
   web:
     cors:
@@ -41,9 +62,20 @@ kakao:
 cloud:
   aws:
     credentials:
-      access-key: ${CLOUD_AWS_CREDENTIALS_ACCESS_KEY}
-      secret-key: ${CLOUD_AWS_CREDENTIALS_SECRET_KEY}
+      access-key: dummy
+      secret-key: dummy
     region:
-      static: ${CLOUD_AWS_REGION_STATIC}
+      static: ap-northeast-2
     s3:
-      bucket: ${CLOUD_AWS_S3_BUCKET}
+      bucket: dummy
+
+
+#cloud:
+#  aws:
+#    credentials:
+#      access-key: ${CLOUD_AWS_CREDENTIALS_ACCESS_KEY}
+#      secret-key: ${CLOUD_AWS_CREDENTIALS_SECRET_KEY}
+#    region:
+#      static: ${CLOUD_AWS_REGION_STATIC}
+#    s3:
+#      bucket: ${CLOUD_AWS_S3_BUCKET}

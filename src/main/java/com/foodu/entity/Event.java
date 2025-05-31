@@ -50,10 +50,10 @@ public class Event {
     @Column(name = "vote_end")
     private LocalDateTime voteEnd;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = true)
     private String location;
 
-    @Column(name = "latitude")
+    @Column(name = "latitude", nullable = true)
     private Double latitude;
     @Column(name = "longitude")
     private Double longitude;
@@ -65,7 +65,7 @@ public class Event {
     @Column(name = "is_canceled")
     private boolean isCanceled = false;
 
-    @JdbcTypeCode(SqlTypes.GEOMETRY)
-    @Column(name = "location_point", columnDefinition = "geometry(Point,4326)")
-    private Point locationPoint;
+//    @JdbcTypeCode(SqlTypes.GEOMETRY)
+//    @Column(name = "location_point", columnDefinition = "geometry(Point,4326)")
+//    private Point locationPoint;
 }
