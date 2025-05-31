@@ -1,7 +1,7 @@
-package com.foodu.Applications.Controller;
+package com.foodu.Truck.Controller;
 
-import com.foodu.Applications.Dto.TruckResponse;
-import com.foodu.Applications.Service.TruckService;
+import com.foodu.Truck.Dto.TruckResponse;
+import com.foodu.Truck.Service.TruckService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -33,6 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/events/create",
                         "/api/events/{eventId}/update",
                         "/api/events/{eventId}/cancel",
-                        "/api/applications/truck");  // 필요한 경로만 지정
+                        "/api/applications/truck",
+                        "/api/truck/**");  // 필요한 경로만 지정
     }
 }

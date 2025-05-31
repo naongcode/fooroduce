@@ -1,4 +1,4 @@
-package com.foodu.Applications.Dto;
+package com.foodu.Truck.Dto;
 
 import com.foodu.entity.Event;
 import com.foodu.entity.TruckApplication;

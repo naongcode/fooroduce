@@ -1,6 +1,6 @@
-package com.foodu.Applications.Service;
+package com.foodu.Truck.Service;
 
-import com.foodu.Applications.Dto.TruckResponse;
+import com.foodu.Truck.Dto.TruckResponse;
 import com.foodu.entity.TruckApplication;
 import com.foodu.repository.TruckApplicationRepository;
 import lombok.RequiredArgsConstructor;
