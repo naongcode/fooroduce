@@ -9,6 +9,9 @@ import java.util.Optional;
 public interface TruckApplicationRepository extends JpaRepository<TruckApplication, Integer> {
     List<TruckApplication> findByEvent_EventId(Integer eventId);
 
+    List<TruckApplication> findByTruck_Owner_UserId(String ownerId);
+
+
     Optional<TruckApplication> findByApplicationIdAndEvent_EventId(Integer applicationId, Integer eventId);
 
 }
