@@ -121,6 +121,7 @@ public class EventService {
                             .description(truck.getDescription()) // 🟡 트럭 설명 포함
                             .phoneNumber(truck.getPhoneNumber())
                             .status(app.getStatus().toString()) // ✅ 여기서 status 포함
+                            .applicationId(app.getApplicationId()) // ✅ 추가
                             .menus(menus.stream().map(menu ->
                                     EventResponse.TruckWithMenu.Menu.builder()
                                             .menuName(menu.getMenuName())

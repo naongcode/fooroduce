@@ -2,6 +2,8 @@ package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "truck_application")
@@ -25,7 +27,8 @@ public class TruckApplication {
 
     private String appliedAt;
 
-    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(columnDefinition = "fooroduce.application_status") // DB enum 타입 명시
     private Status status;
 
     public enum Status {

@@ -47,6 +47,7 @@ public class EventResponse {
         private String description;
         private String phoneNumber;
         private String status; // 추가: 승인 상태
+        private Integer applicationId;
         private List<Menu> menus;
 
         @Data
