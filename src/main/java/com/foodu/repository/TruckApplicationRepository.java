@@ -12,6 +12,7 @@ public interface TruckApplicationRepository extends JpaRepository<TruckApplicati
     List<TruckApplication> findByTruck_Owner_UserId(String ownerId);
 
     Optional<TruckApplication> findByApplicationIdAndEvent_EventId(Integer applicationId, Integer eventId);
-
+    
+    boolean existsByTruck_TruckIdAndEvent_EventId(Integer truckId, Integer eventId);
 
 }
