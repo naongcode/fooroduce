@@ -33,8 +33,8 @@ public class EventResponse {
     private Double latitude;
     private Double longitude;
 
-    private Integer createdBy;
-    private String createdAt;
+    private String createdBy;
+    private LocalDateTime createdAt;
 
     // === 트럭 + 메뉴 정보 통합 ===
     private List<TruckWithMenu> trucks;
@@ -45,7 +45,9 @@ public class EventResponse {
         private Integer truckId;
         private String truckName;
         private String description;
-
+        private String phoneNumber;
+        private String status; // 추가: 승인 상태
+        private Integer applicationId;
         private List<Menu> menus;
 
         @Data

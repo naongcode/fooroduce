@@ -18,6 +18,16 @@ public class JwtAuthFilter implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) throws Exception {
 
+        //CORS시 브라우저에서 API를 받는 서버가 요청을 받을 수 있는지 option메소드를 통해 먼저 서버를 호출
+        //그 과정에서 request header에 실어보낸 JWT를 받지 못하여 CORS policy 오류가 뜰 수 있음.
+        //그럴 땐 명시적으로 메소드가 OPTIONS일 경우 JWT를 체크하지 않게 함.
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            return true;
+        }
+
+
+
         String path = request.getRequestURI();
         if (
                 path.equals("/api/users/signup") ||
@@ -47,6 +57,7 @@ public class JwtAuthFilter implements HandlerInterceptor {
                     .getBody();
 
             request.setAttribute("userId", claims.get("id"));
+            request.setAttribute("role", claims.get("role"));
             return true;
         } catch (JwtException e) {
             System.out.println("Error parsing token: " + e.getMessage());

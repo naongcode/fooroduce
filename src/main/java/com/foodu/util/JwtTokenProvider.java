@@ -14,13 +14,14 @@ public class JwtTokenProvider {
     }
 
     // 토큰 생성
-    public static String createToken(String userId) {
+    public static String createToken(String userId, String role) {
         Date now = new Date();
         return Jwts.builder()
                 .setSubject(userId)
                 .setIssuedAt(now)
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                 .claim("id", userId)
+                .claim("role", role) //이제 권한을 분리함
                 .signWith(Keys.hmacShaKeyFor(SecretKey.JWT_SECRT_KEY.getBytes(StandardCharsets.UTF_8)), SignatureAlgorithm.HS256)
                 .compact();
     }

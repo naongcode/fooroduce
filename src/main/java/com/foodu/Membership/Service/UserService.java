@@ -75,7 +75,7 @@ public class UserService {
         }
 
         // JWT 생성(아이디정보를 가지고 있음)
-        String token = JwtTokenProvider.createToken(user.getUserId());
+        String token = JwtTokenProvider.createToken(user.getUserId(), user.getRole().name());
         
         //Role 문자열로 반환
         String role = user.getRole().name(); //enum을 문자열로 변환
@@ -177,7 +177,7 @@ public class UserService {
             user = optionalUser.get();
         }
 
-        String token = JwtTokenProvider.createToken(user.getUserId());
+        String token = JwtTokenProvider.createToken(user.getUserId(), user.getRole().name());
         return new LoginResponse(token, user.getRole().name(), "카카오 로그인 성공", user.getUserId());
     }
 

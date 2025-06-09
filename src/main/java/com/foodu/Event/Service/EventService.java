@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EventService {
 
+
     private final EventRepository eventRepository;
     private final TruckApplicationRepository truckApplicationRepository;
     private final TruckMenuRepository truckMenuRepository;
@@ -118,6 +119,9 @@ public class EventService {
                             .truckId(truck.getTruckId())
                             .truckName(truck.getName())
                             .description(truck.getDescription()) // 🟡 트럭 설명 포함
+                            .phoneNumber(truck.getPhoneNumber())
+                            .status(app.getStatus().toString()) // ✅ 여기서 status 포함
+                            .applicationId(app.getApplicationId()) // ✅ 추가
                             .menus(menus.stream().map(menu ->
                                     EventResponse.TruckWithMenu.Menu.builder()
                                             .menuName(menu.getMenuName())

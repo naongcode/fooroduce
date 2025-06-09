@@ -3,6 +3,7 @@ package com.foodu.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -22,12 +23,15 @@ public class Truck {
     private User owner;
 
     private String name;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     //@Lob
     private String description;
 
-    private String createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "truck")
     private List<TruckMenu> truckMenus;

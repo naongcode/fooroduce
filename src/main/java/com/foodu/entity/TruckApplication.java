@@ -2,6 +2,10 @@ package com.foodu.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "truck_application")
@@ -23,9 +27,10 @@ public class TruckApplication {
     @JoinColumn(name = "event_id")
     private Event event;
 
-    private String appliedAt;
+    private LocalDateTime appliedAt;
 
-    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(columnDefinition = "fooroduce.application_status") // DB enum 타입 명시
     private Status status;
 
     public enum Status {
