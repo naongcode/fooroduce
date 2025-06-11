@@ -47,3 +47,10 @@ cloud:
       static: ${CLOUD_AWS_REGION_STATIC}
     s3:
       bucket: ${CLOUD_AWS_S3_BUCKET}
+
+sendgrid:
+  api-key: ${SENDGRID_API_KEY}
+  from: ${SENDGRID_FROM}
+  template:
+    accepted: ${SENDGRID_TEMPLATE_ACCEPTED}
+    rejected: ${SENDGRID_TEMPLATE_REJECTED}
