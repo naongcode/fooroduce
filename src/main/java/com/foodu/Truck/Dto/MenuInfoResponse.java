@@ -10,6 +10,7 @@ public class MenuInfoResponse {
     private final String menuName;
     private final String menuPrice;
     private final String menuImage;
+    private final String menuType;
 
     // menuId만 받는 생성자 추가
     public MenuInfoResponse(Integer menuId) {
@@ -17,5 +18,6 @@ public class MenuInfoResponse {
         this.menuName = null;
         this.menuPrice = null;
         this.menuImage = null;
+        this.menuType = null;
     }
 }

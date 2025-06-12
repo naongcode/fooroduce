@@ -22,4 +22,5 @@ public class TruckMenu {
     private String menuName;
     private String menuPrice;
     private String menuImage;
+    private String menuType;
 }

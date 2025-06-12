@@ -10,5 +10,6 @@ public class TruckInfoRequest {
     private String name;
     private String phoneNumber;
     private String description;
+    private String menuType;
     private Integer ownerId; // 사용자 식별자
 }

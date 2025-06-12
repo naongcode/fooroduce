@@ -81,6 +81,7 @@ public class TruckInfoService {
                 .menuName(menuRequestDto.getMenuName())
                 .menuPrice(menuRequestDto.getMenuPrice())
                 .menuImage(menuRequestDto.getMenuImage())
+                .menuType(menuRequestDto.getMenuType())
                 .build();
 
         return truckMenuRepository.save(menu).getMenuId();
@@ -93,7 +94,7 @@ public class TruckInfoService {
 
         return trucks.stream().map(truck -> {
             List<MenuInfoResponse> menus = truck.getTruckMenus().stream()
-                    .map(menu -> new MenuInfoResponse(menu.getMenuId(), menu.getMenuName(), menu.getMenuPrice(), menu.getMenuImage()))
+                    .map(menu -> new MenuInfoResponse(menu.getMenuId(), menu.getMenuName(), menu.getMenuPrice(), menu.getMenuImage(), menu.getMenuType()))
                     .collect(Collectors.toList());
 
             return new TruckWithMenusResponse(
@@ -135,6 +136,9 @@ public class TruckInfoService {
             // 프론트에서 이미 S3에 업로드한 이미지 URL이 넘어온다고 가정
             menu.setMenuImage(request.getMenuImage());
         }
+
+        //추가 : 메뉴의 카테고리 수정
+        menu.setMenuType(request.getMenuType());
 
         truckMenuRepository.save(menu);
     }
