@@ -1,12 +1,15 @@
 package com.foodu.repository;
 
 import com.foodu.entity.Event;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
+
 
 public interface EventRepository extends JpaRepository<Event, Integer> {
 
@@ -24,7 +27,9 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query("SELECT COUNT(e) FROM Event e WHERE e.eventImage LIKE CONCAT(:prefix, '%')")
     int countByEventImagePrefix(@Param("prefix") String prefix);
 
-
+    // pageable 관련
+    @Query("SELECT e FROM Event e WHERE e.voteEnd >= :today")
+    Page<Event> findOngoingEvents(@Param("today") LocalDateTime today, Pageable pageable);
 
     List<Event> findByCreatedBy(String createdBy);
 }
