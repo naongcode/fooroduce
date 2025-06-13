@@ -18,20 +18,18 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 @Service
 @RequiredArgsConstructor
 public class EventService {
 
-
     private final EventRepository eventRepository;
     private final TruckApplicationRepository truckApplicationRepository;
     private final TruckMenuRepository truckMenuRepository;
-
-//    public EventService(EventRepository eventRepository)
-//    {
-//        this.eventRepository = eventRepository;
-//    }
 
     //전체 행사
     public List<AllEventResponse> getAllEvents() {
@@ -54,11 +52,12 @@ public class EventService {
     }
 
 
-
     // 진행중 이벤트
-    public List<OngoingEventResponse> getOngoingEvents() {
-        return eventRepository.findOngoingEvents(LocalDateTime.now())  // 여기 수정
-                .stream()
+    public List<OngoingEventResponse> getOngoingEvents(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("voteEnd").ascending());
+        Page<Event> eventPage = eventRepository.findOngoingEvents(LocalDateTime.now(), pageable);
+
+        return eventPage.getContent().stream()
                 .map(event -> new OngoingEventResponse(
                         event.getEventId(),
                         event.getEventName(),
@@ -71,7 +70,6 @@ public class EventService {
                         event.getVoteStart(),
                         event.getVoteEnd()
                 ))
-                .sorted(Comparator.comparing(OngoingEventResponse::getVoteEnd)) // 오름차순 정렬
                 .collect(Collectors.toList());
     }
 

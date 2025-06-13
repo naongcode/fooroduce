@@ -31,8 +31,11 @@ public class EventController {
 
     // 현재 투표 가능한 행사 목록 조회
     @GetMapping("/ongoing")
-    public ResponseEntity<List<OngoingEventResponse>> getOngoingEvents() {
-        List<OngoingEventResponse> events = eventService.getOngoingEvents();
+    public ResponseEntity<List<OngoingEventResponse>> getOngoingEvents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+
+        List<OngoingEventResponse> events = eventService.getOngoingEvents(page, size);
         return ResponseEntity.ok(events);
     }
 
