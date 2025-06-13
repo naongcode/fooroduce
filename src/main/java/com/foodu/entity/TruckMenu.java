@@ -22,5 +22,6 @@ public class TruckMenu {
     private String menuName;
     private String menuPrice;
     private String menuImage;
+    @Column(name = "menu_type")
     private String menuType;
 }

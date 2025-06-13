@@ -1,5 +1,6 @@
 package com.foodu.Truck.Dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +11,7 @@ public class MenuInfoResponse {
     private final String menuName;
     private final String menuPrice;
     private final String menuImage;
+    @Column(name = "menu_type")
     private final String menuType;
 
     // menuId만 받는 생성자 추가

@@ -56,6 +56,7 @@ public class EventResponse {
             private String menuName;
             private String menuPrice;
             private String menuImage;
+            private String menuType;
         }
     }
 
@@ -73,6 +74,7 @@ public class EventResponse {
 //          "menuName": "치즈버거",
 //          "menuPrice": 7000,
 //          "menuImage": "https://..."
+//          "menuType" : "양식"
 //        }
 //      ]
 //    }

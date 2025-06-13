@@ -37,6 +37,7 @@ public class EventListService {
                                                             .menuName(menu.getMenuName())
                                                             .menuPrice(menu.getMenuPrice())
                                                             .menuImage(menu.getMenuImage())
+                                                            .menuType(menu.getMenuType())
                                                             .build()
                                                     ).collect(Collectors.toList())
                                     )
