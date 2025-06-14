@@ -15,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -93,49 +95,52 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public EventResponse getEventDetail(Integer eventId, int page, int size) {
+    public EventResponse getEventDetail(Integer eventId, int page, int size, String menuType) {
         // 1. 행사 정보 조회
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 이벤트가 존재하지 않습니다."));
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("appliedAt").descending());
 
-        // 2. 행사에 참여 신청한 트럭 신청서 목록 조회
-//        List<TruckApplication> applications = truckApplicationRepository.findByEvent_EventId(eventId);
-        Page<TruckApplication> truckPage =
-                truckApplicationRepository.findByEvent_EventId(eventId, pageable);
+        Page<TruckApplication> truckPage;
+
+        if (menuType.equals("전체")) {
+            truckPage = truckApplicationRepository.findByEvent_EventId(eventId, pageable);
+        } else {
+            // 2. menuType에 해당하는 truckId 목록을 조회
+            List<Integer> truckIdsWithMenuType = truckMenuRepository.findDistinctTruckIdsByEventIdAndMenuType(eventId, menuType);
+
+            // 3. 해당 truckId의 신청서만 가져오기 (Pageable 지원)
+            truckPage = truckApplicationRepository.findByEvent_EventIdAndTruck_TruckIdIn(eventId, truckIdsWithMenuType, pageable);
+        }
 
         // 3. 신청서를 통해 트럭과 메뉴 정보 구성
         List<EventResponse.TruckWithMenu> truckDtos = truckPage.stream()
-                .map(app -> {Truck truck = app.getTruck();
+                .map(app -> {
+                    Truck truck = app.getTruck();
+                    if (truck == null) throw new IllegalStateException("트럭 없음");
 
-                    if (truck == null) {
-                        throw new IllegalStateException("트럭 신청서에 연결된 트럭 정보가 없습니다.");
-                    }
-
-                    // 해당 트럭의 메뉴 목록 조회
+                    // 트럭 전체 메뉴 조회
                     List<TruckMenu> menus = truckMenuRepository.findByTruck_TruckId(truck.getTruckId());
 
                     return EventResponse.TruckWithMenu.builder()
                             .truckId(truck.getTruckId())
                             .truckName(truck.getName())
-                            .description(truck.getDescription()) // 🟡 트럭 설명 포함
+                            .description(truck.getDescription())
                             .phoneNumber(truck.getPhoneNumber())
-                            .status(app.getStatus().toString()) // ✅ 여기서 status 포함
-                            .applicationId(app.getApplicationId()) // ✅ 추가
+                            .status(app.getStatus().toString())
+                            .applicationId(app.getApplicationId())
                             .menus(menus.stream().map(menu ->
                                     EventResponse.TruckWithMenu.Menu.builder()
                                             .menuName(menu.getMenuName())
                                             .menuPrice(menu.getMenuPrice())
                                             .menuImage(menu.getMenuImage())
                                             .menuType(menu.getMenuType())
-                                            .build()
-                            ).collect(Collectors.toList()))
+                                            .build()).collect(Collectors.toList()))
                             .build();
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
-        // 4. 최종 EventResponseDto로 반환
+        // 4. 최종 EventResponseDto 반환
         return EventResponse.builder()
                 .eventId(event.getEventId())
                 .eventName(event.getEventName())

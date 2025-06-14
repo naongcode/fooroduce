@@ -51,9 +51,10 @@ public class EventController {
     public ResponseEntity<EventResponse> getEventDetail(
             @PathVariable Integer eventId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "3") int size,
+            @RequestParam(defaultValue = "전체") String menuType
     ) {
-        EventResponse response = eventService.getEventDetail(eventId, page, size);
+        EventResponse response = eventService.getEventDetail(eventId, page, size, menuType);
         return ResponseEntity.ok(response);
     }
 
