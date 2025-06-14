@@ -93,18 +93,21 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public EventResponse getEventDetail(Integer eventId) {
+    public EventResponse getEventDetail(Integer eventId, int page, int size) {
         // 1. 행사 정보 조회
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 ID의 이벤트가 존재하지 않습니다."));
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by("appliedAt").descending());
+
         // 2. 행사에 참여 신청한 트럭 신청서 목록 조회
-        List<TruckApplication> applications = truckApplicationRepository.findByEvent_EventId(eventId);
+//        List<TruckApplication> applications = truckApplicationRepository.findByEvent_EventId(eventId);
+        Page<TruckApplication> truckPage =
+                truckApplicationRepository.findByEvent_EventId(eventId, pageable);
 
         // 3. 신청서를 통해 트럭과 메뉴 정보 구성
-        List<EventResponse.TruckWithMenu> truckDtos = applications.stream()
-                .map(app -> {
-                    Truck truck = app.getTruck();
+        List<EventResponse.TruckWithMenu> truckDtos = truckPage.stream()
+                .map(app -> {Truck truck = app.getTruck();
 
                     if (truck == null) {
                         throw new IllegalStateException("트럭 신청서에 연결된 트럭 정보가 없습니다.");
@@ -152,6 +155,9 @@ public class EventService {
                 .createdBy(event.getCreatedBy())
                 .createdAt(event.getCreatedAt())
                 .trucks(truckDtos)
+                .currentPage(truckPage.getNumber())
+                .totalPages(truckPage.getTotalPages())
+                .totalElements(truckPage.getTotalElements())
                 .build();
     }
 

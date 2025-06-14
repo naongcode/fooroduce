@@ -1,13 +1,15 @@
 package com.foodu.Event.Dto;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventResponse {
 
     // Event안에 Truck정보 있고, 다시 그안에 Menu정보 있음.
@@ -35,6 +37,10 @@ public class EventResponse {
 
     private String createdBy;
     private LocalDateTime createdAt;
+
+    private int currentPage;
+    private int totalPages;
+    private long totalElements;
 
     // === 트럭 + 메뉴 정보 통합 ===
     private List<TruckWithMenu> trucks;

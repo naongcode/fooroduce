@@ -46,9 +46,14 @@ public class EventController {
         return ResponseEntity.ok(events);
     }
 
+    // 행사 상세정보
     @GetMapping("/{eventId}")
-    public ResponseEntity<EventResponse> getEventDetail(@PathVariable Integer eventId) {
-        EventResponse response = eventService.getEventDetail(eventId);
+    public ResponseEntity<EventResponse> getEventDetail(
+            @PathVariable Integer eventId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        EventResponse response = eventService.getEventDetail(eventId, page, size);
         return ResponseEntity.ok(response);
     }
 
