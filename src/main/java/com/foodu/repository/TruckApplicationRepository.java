@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public interface TruckApplicationRepository extends JpaRepository<TruckApplication, Integer> {
 
-    //    List<TruckApplication> findByEvent_EventId(Integer eventId);
+    List<TruckApplication> findByEvent_EventId(Integer eventId);
+
     // pagination 적용
     Page<TruckApplication> findByEvent_EventId(Integer eventId, Pageable pageable);
 
