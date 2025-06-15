@@ -14,7 +14,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -27,6 +30,8 @@ public class EventManagementService {
     private final UserRepository userRepository;
     private final MapService mapService;
 
+    private final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+
     LocalDateTime now = LocalDateTime.now();
     
     //행사 등록 로직
@@ -35,6 +40,8 @@ public class EventManagementService {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 유저입니다."));
 
         GeocodeResponse geo = mapService.geocodeAddress(req.getLocation());
+
+        Point point = geometryFactory.createPoint(new Coordinate(geo.getLongitude(), geo.getLatitude()));
 
         Event tempEvent = Event.builder()
                 .eventName(req.getEventName())
@@ -49,6 +56,7 @@ public class EventManagementService {
                 .location(req.getLocation())
                 .latitude(geo.getLatitude())
                 .longitude(geo.getLongitude())
+                .locationPoint(point)
                 .createdBy(userId)
                 .createdAt(LocalDateTime.now())
                 .truckCount(0)
@@ -99,6 +107,10 @@ public class EventManagementService {
             GeocodeResponse geo = mapService.geocodeAddress(req.getLocation());
             event.setLatitude(geo.getLatitude());
             event.setLongitude(geo.getLongitude());
+
+            // Point 필드 저장
+            Point point = geometryFactory.createPoint(new Coordinate(geo.getLongitude(), geo.getLatitude()));
+            event.setLocationPoint(point);
         }
         if (req.getRecruitStart() != null) event.setRecruitStart(req.getRecruitStart());
         if (req.getRecruitEnd() != null) event.setRecruitEnd(req.getRecruitEnd());
