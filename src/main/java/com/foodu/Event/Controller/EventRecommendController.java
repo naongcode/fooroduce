@@ -19,10 +19,12 @@ public class EventRecommendController {
     public ResponseEntity<List<EventRecommendResponse>> getNearbyEvents(
             @RequestParam double longitude,
             @RequestParam double latitude,
-            @RequestParam(defaultValue = "5000") double radius) {
+            @RequestParam(defaultValue = "5000") double radius,
+            @RequestParam int excludedEventId) {
 
-        List<EventRecommendResponse> nearbyEvents = eventRecommendService.findNearbyEvents(longitude, latitude, radius);
-
+            List<EventRecommendResponse> nearbyEvents = eventRecommendService.findNearbyEvents(
+                    longitude, latitude, radius, excludedEventId
+            );
         return ResponseEntity.ok(nearbyEvents);
     }
 }

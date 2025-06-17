@@ -17,10 +17,11 @@ public class EventRecommendService {
     private final JdbcTemplate jdbcTemplate;
 
     // 가까운순으로 3개까지 조회
-    public List<EventRecommendResponse> findNearbyEvents(double longitude, double latitude, double radius) {
+    public List<EventRecommendResponse> findNearbyEvents(double longitude, double latitude, double radius, int excludedEventId) {
         String sql = """
             select * from fooroduce.event e
             where e.event_end >= now()
+            and e.event_id <> ?
             and ST_DWithin(
                 e.location_point,
                 ST_SetSRID(ST_MakePoint(?, ?), 4326)::geography,
@@ -34,7 +35,7 @@ public class EventRecommendService {
             """;
 
         return jdbcTemplate.query(
-                sql, this::mapRowToDto, longitude, latitude, radius, longitude, latitude);
+                sql, this::mapRowToDto, excludedEventId, longitude, latitude, radius, longitude, latitude);
 
     }
 
