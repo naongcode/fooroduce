@@ -48,7 +48,8 @@ public class EventService {
                         event.getRecruitStart(),
                         event.getRecruitEnd(),
                         event.getVoteStart(),
-                        event.getVoteEnd()
+                        event.getVoteEnd(),
+                        event.getLocation()
                 ))
                 .collect(Collectors.toList());
     }

@@ -33,4 +33,6 @@ public class AllEventResponse {
     private LocalDateTime voteStart;
     @Column(name = "vote_end")
     private LocalDateTime voteEnd;
+
+    private String location;
 }
