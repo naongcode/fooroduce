@@ -62,6 +62,8 @@ public class Event {
     private String createdBy;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Builder.Default
     @Column(name = "is_canceled")
     private boolean isCanceled = false;
 
