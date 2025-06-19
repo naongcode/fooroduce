@@ -71,7 +71,8 @@ public class EventService {
                         event.getRecruitStart(),
                         event.getRecruitEnd(),
                         event.getVoteStart(),
-                        event.getVoteEnd()
+                        event.getVoteEnd(),
+                        event.getLocation()
                 ))
                 .collect(Collectors.toList());
     }
@@ -90,7 +91,8 @@ public class EventService {
                         event.getRecruitStart(),
                         event.getRecruitEnd(),
                         event.getVoteStart(),
-                        event.getVoteEnd()
+                        event.getVoteEnd(),
+                        event.getLocation()
                 ))
                 .sorted(Comparator.comparing(ClosedEventResponse::getEventEnd).reversed()) // 내림차순 정렬
                 .collect(Collectors.toList());
